@@ -4,6 +4,10 @@ date: 2024-01-01
 author: ["T. Deschamps-Berger"]
 description: "PhD Thesis, Université Paris-Saclay, 2024."
 summary: "This thesis presents a multimodal deep learning architecture for social emotion recognition in the context of emergency call centers."
+cover:
+    image: "cover.png"
+    alt: "BERT-style research icon"
+    relative: true
 ---
 
 ##### Links

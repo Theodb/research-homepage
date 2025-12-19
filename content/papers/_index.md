@@ -1,4 +1,7 @@
 ---
 title: "Papers"
-description: "Preprints and articles by Professor Dr von Igelfeld."
+description: "Research papers and articles by Theo Deschamps-Berger."
+_build:
+  render: never
+  list: never
 ---

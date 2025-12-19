@@ -4,6 +4,10 @@ date: 2024-01-01
 author: ["L. Devillers", "T. Deschamps-Berger", "L. Lamel"]
 description: "Published in Langages, vol. 234, no. 2, 2024."
 summary: "Cet article explore la détection des émotions 'in the wild' dans les appels d'urgence."
+cover:
+    image: "cover.png"
+    alt: "FR speech icon"
+    relative: true
 ---
 
 ##### Citation

@@ -1,0 +1,288 @@
+{{- define "main" }}
+
+{{- if site.Params.profileMode.enabled }}
+{{- partial "index_profile.html" . }}
+{{- end }}
+
+<style>
+  .timeline {
+    position: relative;
+    max-width: 100%;
+    margin-top: 30px;
+    padding-left: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 4px;
+    width: 2px;
+    background: var(--secondary);
+    opacity: 0.3;
+  }
+
+  .timeline-entry {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--theme);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2px;
+  }
+
+  .timeline-title {
+    margin: 0 !important;
+    font-size: 1.1em !important;
+    font-weight: bold;
+  }
+
+  .timeline-date {
+    font-size: 0.85em;
+    color: var(--secondary);
+    white-space: nowrap;
+    margin-left: 15px;
+    margin-top: 2px;
+  }
+
+  .timeline-org {
+    margin: 0 !important;
+    font-weight: 500;
+    color: var(--primary);
+    font-size: 0.95em;
+  }
+
+  .timeline-location {
+    font-weight: normal;
+    font-size: 0.85em;
+    margin-left: 8px;
+    color: var(--secondary);
+  }
+
+  .timeline-details {
+    margin-top: 5px;
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 600px) {
+    .timeline-header {
+      flex-direction: column;
+    }
+
+    .timeline-date {
+      margin-left: 0;
+      margin-top: 2px;
+    }
+  }
+
+  /* Navigation Tabs Styling */
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px auto 10px;
+    padding: 0 20px;
+  }
+
+  .nav-tabs a {
+    padding: 10px 22px;
+    border-radius: 25px;
+    background: var(--tertiary);
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs a:hover {
+    background: var(--primary);
+    color: var(--theme);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-tabs a:active {
+    transform: translateY(0);
+  }
+
+  /* Paper List Refinement */
+  .post-entry {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 25px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    background: var(--code-bg) !important;
+    border-radius: 12px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .post-entry:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .entry-cover {
+    flex: 0 0 100px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .entry-cover img {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+    margin: 0 !important;
+  }
+
+  .post-info {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+  }
+
+  .entry-header h2 {
+    margin: 0 !important;
+    font-size: 1.3em !important;
+    line-height: 1.3 !important;
+  }
+
+  .entry-venue {
+    font-size: 0.8em !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    color: var(--primary) !important;
+    background: var(--tertiary) !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+    margin-bottom: 8px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .entry-content {
+    margin: 0 !important;
+    font-size: 0.95em !important;
+    color: var(--secondary) !important;
+  }
+
+  .entry-footer {
+    margin: 0 !important;
+    font-size: 0.85em !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    .post-entry {
+      gap: 15px !important;
+      padding: 15px !important;
+    }
+
+    .entry-cover {
+      flex: 0 0 80px !important;
+    }
+
+    .entry-cover img {
+      width: 80px !important;
+      height: 80px !important;
+    }
+
+    .entry-header h2 {
+      font-size: 1.1em !important;
+    }
+  }
+</style>
+
+<div class="nav-tabs">
+  <a href="cv.pdf" target="_blank">Resume</a>
+  <a href="#papers">Papers</a>
+  {{/* <a href="#blog">Blog</a> */}}
+</div>
+
+<div class="post-content">
+  <hr />
+  <h1 id="papers">Papers</h1>
+</div>
+
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+
+{{- range $index, $page := $pages }}
+{{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+{{- $coverImage := .Params.cover.image }}
+{{- $hasCover := false }}
+{{- if and $coverImage (not $isHidden) }}
+{{- if (urls.Parse $coverImage).IsAbs }}
+{{- $hasCover = true }}
+{{- else }}
+{{- $pageBundleCover := (.Resources.ByType "image").GetMatch (printf "*%s*" $coverImage) }}
+{{- $globalResourcesCover := (resources.ByType "image").GetMatch (printf "*%s*" $coverImage) }}
+{{- if or $pageBundleCover $globalResourcesCover }}
+{{- $hasCover = true }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+<article class="post-entry{{ if not $hasCover }} no-cover{{ end }}">
+  {{- if $hasCover }}
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  {{- end }}
+  <div class="post-info">
+    <header class="entry-header">
+      {{- if .Params.description }}
+      <div class="entry-venue">{{ .Params.description }}</div>
+      {{- end }}
+      <h2 class="entry-hint-parent">
+        {{- .Title }}
+      </h2>
+    </header>
+    {{- if (ne (.Param "hideSummary") true) }}
+    <div class="entry-content">
+      <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+    </div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <footer class="entry-footer">
+      {{- partial "post_meta.html" . -}}
+    </footer>
+    {{- end }}
+  </div>
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+
+{{/*
+<div class="post-content">
+  <hr />
+  <h1 id="blog">Blog</h1>
+  <p>You can find my blog here: <a href="https://en.wikipedia.org/wiki/Moritz-Maria_von_Igelfeld_(character)">Blog
+      Link</a></p>
+</div>
+*/}}
+
+{{- end }}
